@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
 
 urlpatterns = [
+    path('', lambda request: HttpResponse("Welcome to UniRoute API!"), name='home'),
+
     path('admin/', admin.site.urls),
     
     path('api/accounts/', include('apps.accounts.urls')),
