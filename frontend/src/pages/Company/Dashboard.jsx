@@ -187,7 +187,7 @@ const Dashboard = () => {
                   />
                   <h1>Inovetive Tech Dashboard</h1>
                 </div>
-                <p>Leadingg provider of innovative tech solutions, shaping the future of digital excellence</p>
+                <p>Leading provider of innovative tech solutions, shaping the future of digital excellence</p>
                 <div className="hero-time-display">
                   <div className="current-time">{formatTime(currentTime)}</div>
                   <div className="current-date">{formatDate(currentTime)}</div>
