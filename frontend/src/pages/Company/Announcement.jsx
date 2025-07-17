@@ -180,6 +180,13 @@ const Announcement = () => {
     }));
   };
 
+  // Handle Delete
+  const handleDelete = (announcementId) => {
+    if (window.confirm('Are you sure you want to delete this announcement?')) {
+      setAnnouncements(announcements.filter(announcement => announcement.id !== announcementId));
+    }
+  };
+
   // Get status color
   const getStatusColor = (status) => {
     switch(status) {
@@ -295,9 +302,9 @@ const Announcement = () => {
                           ✏️
                         </button>
                          <button 
-                          className="btn-action btn-delete" 
-                          onClick={() => handleDelete(announcement.id)}
-                          title="Delete Announcement"
+                          className="btn-action btn-view" 
+                          onClick={() => handleView(announcement)}
+                          title="View Announcement"
                         >
                           ❌
                         </button>

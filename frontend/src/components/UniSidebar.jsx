@@ -9,10 +9,10 @@ const UniSidebar = ({ activePage = 'dashboard', onExpandChange }) => {
 
   const menuItems = [
     { id: 'dashboard', icon: '🏠', label: 'Dashboard', path: '/university/dashboard' },
-    { id: 'portfolio', icon: '📊', label: 'Manage Portfolio', path: '/university/portfolio' },
+    { id: 'portfolio', icon: '📊', label: 'Manage Portfolio', path: '/university/manage-portfolio' },
     { id: 'announcement', icon: '📢', label: 'Announcement', path: '/university/announcement' },
     { id: 'academic-content', icon: '📚', label: 'Academic Content', path: '/university/academic-content' },
-    { id: 'publish-ads', icon: '📝', label: 'Publish Ads', path: '/university/publish-ads' }
+    { id: 'ad-publish', icon: '📝', label: 'Publish Ads', path: '/university/ad-publish' }
   ];
 
   const handleMouseEnter = () => {
