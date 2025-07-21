@@ -12,6 +12,7 @@
 
 .portfolio-main-content {
   flex: 1;
+<<<<<<< HEAD
   margin-left: 250px;
   margin-top: 70px;
   transition: all 0.3s ease;
@@ -30,12 +31,38 @@
 .portfolio-hero {
   position: relative;
   height: 60vh;
+=======
+  margin-left: 0; /* CHANGED: Default when sidebar is closed */
+  min-height: 100vh;
+  transition: margin-left 0.3s ease; /* CHANGED: Add smooth transition */
+  background: #f8fafc;
+  padding-top: 90px; /* Updated to accommodate the new navbar */
+}
+
+.portfolio-main-content.sidebar-expanded {
+  margin-left: 288px; /* CHANGED: Updated to match UniversitySidebar width */
+}
+
+.portfolio-main-content.sidebar-collapsed {
+  margin-left: 0; /* CHANGED: Content takes full width when sidebar is closed */
+}
+
+/* Hero Section - Reduced height with border radius */
+.portfolio-hero {
+  position: relative;
+  height: 45vh; /* Reduced from 60vh */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   display: flex;
   align-items: center;
   justify-content: center;
   background:
               url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center center/cover no-repeat;
   overflow: hidden;
+<<<<<<< HEAD
+=======
+  border-radius: 20px; /* Added border radius */
+  margin: 2rem 0; /* Added margin for better spacing */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .hero-background {
@@ -45,6 +72,10 @@
   right: 0;
   bottom: 0;
   background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+<<<<<<< HEAD
+=======
+  border-radius: 20px; /* Added border radius to match parent */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .hero-overlay {
@@ -54,6 +85,10 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.3);
+<<<<<<< HEAD
+=======
+  border-radius: 20px; /* Added border radius to match parent */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .hero-content {
@@ -62,7 +97,11 @@
   text-align: center;
   color: white;
   max-width: 800px;
+<<<<<<< HEAD
   padding: 0 2rem;
+=======
+  padding: 0 3rem; /* Increased padding */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 
@@ -74,7 +113,11 @@
 
 .portfolio-hero .university-name {
   font-size: 3.5rem;
+<<<<<<< HEAD
   font-weight: 800;
+=======
+  font-weight: 600;
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   margin-bottom: 1rem;
   color: #ffffff;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -118,11 +161,16 @@
 
 /* Portfolio Sections */
 .portfolio-section {
+<<<<<<< HEAD
   padding: 4rem 2rem;
+=======
+  padding: 3rem 3rem; /* Increased left and right padding */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   max-width: 1200px;
   margin: 0 auto;
 }
 
+<<<<<<< HEAD
 .section-header {
   text-align: center;
   margin-bottom: 3rem;
@@ -138,12 +186,48 @@
 .section-header p {
   font-size: 1.1rem;
   color: #64748b;
+=======
+/* Section Header Styling - Consistent alignment */
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 0 2rem;
+}
+
+.section-header h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  text-align: center; /* Center align like other sections */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.section-header p {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 400;
+  text-align: center; /* Center align like other sections */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   max-width: 600px;
   margin: 0 auto;
 }
 
+<<<<<<< HEAD
 .portfolio-section .section-header {
   margin-bottom: 2rem;
+=======
+/* Remove the section-title-container specific styling */
+.section-title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align instead of flex-start */
+  gap: 0.5rem;
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 /* Overview Section */
@@ -151,6 +235,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
+<<<<<<< HEAD
+=======
+  padding: 0 1rem; /* Added padding to grid containers */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .overview-card {
@@ -179,16 +267,32 @@
 }
 
 /* Achievements Section */
+<<<<<<< HEAD
 .achievements-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
+=======
+.achievements-section {
+  background: #f8fafc;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  margin: 2rem 12rem;
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 0 1rem; /* Added padding to match other sections */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .achievement-card {
   background: white;
   padding: 2rem;
   border-radius: 12px;
+<<<<<<< HEAD
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   position: relative;
   overflow: hidden;
@@ -197,6 +301,18 @@
 
 .achievement-card:hover {
   transform: translateY(-5px);
+=======
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.achievement-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .achievement-card::before {
@@ -211,6 +327,7 @@
 
 .achievement-year {
   font-size: 0.9rem;
+<<<<<<< HEAD
   color: #6366f1;
   font-weight: 600;
   margin-bottom: 0.5rem;
@@ -230,11 +347,43 @@
   border-radius: 20px;
   font-weight: 600;
   margin-bottom: 1rem;
+=======
+  font-weight: 600;
+  color: #6366f1;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.achievement-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.achievement-rank {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f59e0b;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background: #fef3c7;
+  border-radius: 20px;
+  display: inline-block;
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .achievement-description {
   color: #64748b;
+<<<<<<< HEAD
   line-height: 1.6;
+=======
+  line-height: 1.5;
+  font-size: 0.9rem;
+  margin: 0;
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 /* Ranking Section */
@@ -243,6 +392,10 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+<<<<<<< HEAD
+=======
+  margin: 0 1rem; /* Added margin for better spacing */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .chart-header {
@@ -300,6 +453,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
+<<<<<<< HEAD
+=======
+  padding: 0 1rem; /* Added padding to grid containers */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .faculty-card {
@@ -443,6 +600,10 @@
 .events-timeline {
   max-width: 800px;
   margin: 0 auto;
+<<<<<<< HEAD
+=======
+  padding: 0 2rem; /* Added padding */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .event-item {
@@ -508,6 +669,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
+<<<<<<< HEAD
+=======
+  padding: 0 1rem; /* Added padding to grid containers */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 }
 
 .facility-card {
@@ -543,12 +708,21 @@
 @media (max-width: 768px) {
   .portfolio-main-content {
     margin-left: 0;
+<<<<<<< HEAD
     margin-top: 70px;
+=======
+    padding-top: 90px; /* Updated padding */
+    padding: 0 1rem;
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   }
 
   .portfolio-main-content.sidebar-expanded,
   .portfolio-main-content.sidebar-collapsed {
     margin-left: 0;
+<<<<<<< HEAD
+=======
+    padding-top: 90px; /* Updated padding */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   }
 
   .university-name {
@@ -560,6 +734,7 @@
   }
 
   .portfolio-section {
+<<<<<<< HEAD
     padding: 2rem 1rem;
   }
 
@@ -588,5 +763,42 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+=======
+    padding: 2rem 1.5rem; /* Adjusted padding for mobile */
+  }
+
+  .hero-content {
+    padding: 0 1.5rem; /* Reduced padding for mobile */
+  }
+
+  .section-header {
+    padding: 0 1rem; /* Reduced padding for mobile */
+  }
+
+  .overview-grid,
+  .achievements-grid,
+  .faculties-grid,
+  .programs-grid,
+  .facilities-grid {
+    padding: 0 0.5rem; /* Reduced padding for mobile */
+  }
+
+  .events-timeline {
+    padding: 0 1rem; /* Reduced padding for mobile */
+  }
+
+  .ranking-chart {
+    margin: 0 0.5rem; /* Reduced margin for mobile */
+  }
+  
+  .portfolio-hero {
+    border-radius: 15px; /* Slightly smaller radius for mobile */
+    margin: 1rem 0; /* Reduced margin for mobile */
+  }
+  
+  .hero-background,
+  .hero-overlay {
+    border-radius: 15px; /* Match parent radius */
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   }
 }

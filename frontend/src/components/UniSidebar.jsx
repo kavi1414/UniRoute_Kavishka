@@ -9,10 +9,17 @@ const UniSidebar = ({ activePage = 'dashboard', onExpandChange }) => {
 
   const menuItems = [
     { id: 'dashboard', icon: '🏠', label: 'Dashboard', path: '/university/dashboard' },
+<<<<<<< HEAD
     { id: 'portfolio', icon: '📊', label: 'Manage Portfolio', path: '/university/manage-portfolio' },
     { id: 'announcement', icon: '📢', label: 'Announcement', path: '/university/announcement' },
     { id: 'academic-content', icon: '📚', label: 'Academic Content', path: '/university/academic-content' },
     { id: 'ad-publish', icon: '📝', label: 'Publish Ads', path: '/university/ad-publish' }
+=======
+    { id: 'portfolio', icon: '📊', label: 'Manage Portfolio', path: '/university/portfolio' },
+    { id: 'announcement', icon: '📢', label: 'Announcement', path: '/university/announcement' },
+    { id: 'academic-content', icon: '📚', label: 'Academic Content', path: '/university/academic-content' },
+    { id: 'publish-ads', icon: '📝', label: 'Publish Ads', path: '/university/publish-ads' }
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   ];
 
   const handleMouseEnter = () => {

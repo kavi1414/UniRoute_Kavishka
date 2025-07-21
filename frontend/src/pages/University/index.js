@@ -2,7 +2,16 @@ export { default as Dashboard } from './Dashboard';
 export { default as Dashboarduser } from './Dashboarduser';
 export { default as AdPublish } from './AdPublish';
 export { default as AcademicContent } from './AcademicContent';
+<<<<<<< HEAD
 export { default as Announcement } from './Announcement';
 export { default as Announcementuser } from './Announcementuser';
 export { default as Manageportfolio } from './Manageportfolio';
 export { default as Manageportfoliouser } from './Manageportfoliouser';
+=======
+export { default as AcademicContentuser } from './AcademicContentuser';
+export { default as Announcement } from './Announcement';
+export { default as Announcementuser } from './Announcementuser';
+export { default as Manageportfolio } from './Manageportfolio';
+export { default as Manageportfoliouser } from './Manageportfoliouser';
+export {default as Mentoruni} from './Mentoruni'
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d

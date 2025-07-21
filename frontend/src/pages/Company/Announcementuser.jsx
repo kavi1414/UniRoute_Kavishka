@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import Sidebar from '../../components/Sidebar';
 import './Announcement.css';
 
@@ -10,6 +11,17 @@ const Announcement = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
   const [editFormData, setEditFormData] = useState({});
+=======
+import CompanyUserSidebar from '../../components/Navigation/CompanyUsersidebar'; // CHANGED: Import CompanyUserSidebar
+import CompanyDashboardNavbar from '../../components/Navigation/CompanyDashboardNavbar';
+import './Announcementuser.css';
+
+const Announcementuser = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // CHANGED: Rename from isSidebarExpanded to isSidebarOpen
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   // Sample announcements data
@@ -115,6 +127,7 @@ const Announcement = () => {
     setShowViewModal(true);
   };
 
+<<<<<<< HEAD
   // Handle Edit Modal
   const handleEdit = (announcement) => {
     setSelectedAnnouncement(announcement);
@@ -196,11 +209,43 @@ const Announcement = () => {
       case 'medium': return '#f59e0b';
       case 'low': return '#10b981';
       default: return '#6b7280';
+=======
+  // Add this function to handle status colors
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'active':
+        return '#10b981'; // green
+      case 'pending':
+        return '#f59e0b'; // yellow
+      case 'draft':
+        return '#6b7280'; // gray
+      case 'expired':
+        return '#ef4444'; // red
+      case 'published':
+        return '#3b82f6'; // blue
+      default:
+        return '#6b7280'; // default gray
+    }
+  };
+
+  // Add this function alongside getStatusColor
+  const getPriorityColor = (priority) => {
+    switch (priority?.toLowerCase()) {
+      case 'high':
+        return '#ef4444'; // red
+      case 'medium':
+        return '#f59e0b'; // yellow
+      case 'low':
+        return '#10b981'; // green
+      default:
+        return '#6b7280'; // gray
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
     }
   };
 
   return (
     <div className="announcement-page">
+<<<<<<< HEAD
       <div className="announcement-container">
         <Sidebar 
           activePage="announcement" 
@@ -369,10 +414,181 @@ const Announcement = () => {
                       style={{ color: getPriorityColor(selectedAnnouncement.priority) }}
                     >
                       {selectedAnnouncement.priority} priority
+=======
+      {/* SIDEBAR AT THE VERY TOP - OUTSIDE CONTAINER */}
+      <CompanyUserSidebar 
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
+
+      {/* NAVBAR */}
+      <CompanyDashboardNavbar
+        onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        sidebarExpanded={isSidebarOpen}
+      />
+
+      {/* MAIN CONTENT */}
+      <main className={`announcement-main ${isSidebarOpen ? 'sidebar-expanded' : 'sidebar-collapsed'}`}>
+        {/* REMOVED HERO SECTION */}
+
+        <section className="announcement-search">
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search announcements, categories, or content..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+          
+          <div className="filter-container">
+            <select 
+              value={selectedCategory} 
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="filter-select"
+            >
+              {categories.map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+        </section>
+
+        <section className="announcements">
+          <div className="announcements-header">
+            <h2>Announcements</h2>
+            {/* NO Add New button for user */}
+          </div>
+
+          <div className="announcements-table">
+            <div className="table-header">
+              <div className="header-cell announcement-col">ANNOUNCEMENT</div>
+              <div className="header-cell date-col">PUBLISH DATE</div>
+              <div className="header-cell status-col">STATUS</div>
+              <div className="header-cell actions-col">ACTIONS</div>
+            </div>
+
+            <div className="table-body">
+              {filteredAnnouncements.map((announcement) => (
+                <div key={announcement.id} className="table-row">
+                  <div className="cell announcement-cell">
+                    <div className="announcement-info">
+                      <div className="announcement-icon">📢</div>
+                      <div className="announcement-details">
+                        <h3 className="announcement-title">{announcement.title}</h3>
+                        <p className="announcement-subtitle">{announcement.category}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="cell date-cell">
+                    <span className="date-text">{new Date(announcement.date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="cell status-cell">
+                    <span 
+                      className={`status-badge ${announcement.status}`}
+                      style={{ backgroundColor: getStatusColor(announcement.status) }}
+                    >
+                      {announcement.status === 'published' ? 'Published' : 'Draft'}
+                    </span>
+                  </div>
+                  <div className="cell actions-cell">
+                    <div className="action-buttons">
+                      <button 
+                        className="btn-action btn-view" 
+                        onClick={() => handleView(announcement)}
+                        title="View Announcement"
+                      >
+                        👁️
+                      </button>
+                      
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="pagination">
+            <button className="pagination-btn">
+              ← Previous Page
+            </button>
+            <span className="pagination-info">PAGE 1 OF 1</span>
+            <button className="pagination-btn">
+              Next Page →
+            </button>
+          </div>
+        </section>
+
+        <section className="announcement-stats">
+          <div className="stats-content">
+            <h2>Announcement Statistics</h2>
+            <div className="stats-grid">
+              <div className="stat-item">
+                <div className="stat-icon">📢</div>
+                <div className="stat-value">{announcements.length}</div>
+                <div className="stat-label">Total Announcements</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">✅</div>
+                <div className="stat-value">{announcements.filter(a => a.status === 'published').length}</div>
+                <div className="stat-label">Published</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">📝</div>
+                <div className="stat-value">{announcements.filter(a => a.status === 'draft').length}</div>
+                <div className="stat-label">Drafts</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">👁️</div>
+                <div className="stat-value">{announcements.reduce((sum, a) => sum + a.views, 0)}</div>
+                <div className="stat-label">Total Views</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer className="announcement-footer">
+          <div className="footer-content">
+            <h3>Stay Connected</h3>
+            <div className="newsletter">
+              <input type="email" placeholder="Your email" />
+              <button>Subscribe</button>
+            </div>
+          </div>
+        </footer>
+      </main>
+
+      {/* View Modal */}
+      {showViewModal && selectedAnnouncement && (
+        <div className="company-user-announcement-modal-overlay" onClick={() => setShowViewModal(false)}>
+          <div className="company-user-announcement-modal-content" onClick={e => e.stopPropagation()}>
+            <div className="company-user-announcement-modal-header">
+              <h2>View Announcement</h2>
+              <button className="company-user-announcement-modal-close" onClick={() => setShowViewModal(false)}>✕</button>
+            </div>
+            <div className="company-user-announcement-modal-body">
+              <img src={selectedAnnouncement.image} alt={selectedAnnouncement.title} className="company-user-announcement-modal-image" />
+              <div className="company-user-announcement-modal-info">
+                <div className="company-user-announcement-modal-title-section">
+                  <h3>{selectedAnnouncement.title}</h3>
+                  <div className="company-user-announcement-modal-badges">
+                    <span 
+                      className={`company-user-announcement-status-badge ${selectedAnnouncement.status}`}
+                    >
+                      {selectedAnnouncement.status === 'published' ? 'Published' : 'Draft'}
+                    </span>
+                    <span 
+                      className="company-user-announcement-priority-badge"
+                      style={{ color: getPriorityColor(selectedAnnouncement.priority) }}
+                    >
+                      {selectedAnnouncement.priority.toUpperCase()} PRIORITY
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     </span>
                   </div>
                 </div>
                 
+<<<<<<< HEAD
                 <div className="modal-meta">
                   <div className="meta-item">
                     <strong>📅 Date:</strong> {new Date(selectedAnnouncement.date).toLocaleDateString()}
@@ -384,20 +600,45 @@ const Announcement = () => {
                     <strong>🏷️ Category:</strong> {selectedAnnouncement.category}
                   </div>
                   <div className="meta-item">
+=======
+                <div className="company-user-announcement-modal-meta">
+                  <div className="company-user-announcement-meta-item">
+                    <strong>📅 Date:</strong> {new Date(selectedAnnouncement.date).toLocaleDateString()}
+                  </div>
+                  <div className="company-user-announcement-meta-item">
+                    <strong>👤 Author:</strong> {selectedAnnouncement.author}
+                  </div>
+                  <div className="company-user-announcement-meta-item">
+                    <strong>🏷️ Category:</strong> {selectedAnnouncement.category}
+                  </div>
+                  <div className="company-user-announcement-meta-item">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     <strong>📊 Statistics:</strong> {selectedAnnouncement.views} views, {selectedAnnouncement.likes} likes
                   </div>
                 </div>
                 
+<<<<<<< HEAD
                 <div className="modal-description">
+=======
+                <div className="company-user-announcement-modal-description">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   <strong>📝 Description:</strong>
                   <p>{selectedAnnouncement.description}</p>
                 </div>
                 
+<<<<<<< HEAD
                 <div className="modal-tags">
                   <strong>🏷️ Tags:</strong>
                   <div className="tags-container">
                     {selectedAnnouncement.tags.map((tag, index) => (
                       <span key={index} className="tag">{tag}</span>
+=======
+                <div className="company-user-announcement-modal-tags">
+                  <strong>🏷️ Tags:</strong>
+                  <div className="company-user-announcement-tags-container">
+                    {selectedAnnouncement.tags.map((tag, index) => (
+                      <span key={index} className="company-user-announcement-tag">{tag}</span>
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     ))}
                   </div>
                 </div>
@@ -406,6 +647,7 @@ const Announcement = () => {
           </div>
         </div>
       )}
+<<<<<<< HEAD
 
       {/* Edit Modal */}
       {showEditModal && selectedAnnouncement && (
@@ -670,8 +912,14 @@ const Announcement = () => {
           </div>
         </div>
       )}
+=======
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
     </div>
   );
 };
 
+<<<<<<< HEAD
 export default Announcement;
+=======
+export default Announcementuser;
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d

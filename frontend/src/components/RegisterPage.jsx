@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { GraduationCap, Mail, Lock, Eye, EyeOff, ArrowLeft, User, Phone } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { GraduationCap, Mail, Lock, Eye, EyeOff, ArrowLeft, User, Phone, CheckCircle, AlertCircle } from 'lucide-react';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' });
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: '',
     agreeToTerms: false,
@@ -22,15 +26,78 @@ const RegisterPage = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    
+    if (message.text) {
+      setMessage({ type: '', text: '' });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle registration logic here
-    console.log('Registration attempt:', formData);
+    setIsLoading(true);
+    setMessage({ type: '', text: '' });
+    
+    try {
+      if (!formData.agreeToTerms) {
+        setMessage({ type: 'error', text: 'Please accept the terms and conditions' });
+        setIsLoading(false);
+        return;
+      }
+
+      const registrationData = {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        phoneNumber: formData.phoneNumber,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword
+      };
+
+      console.log('Sending registration data:', registrationData);
+
+      const response = await fetch('http://127.0.0.1:8000/api/accounts/register/student/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(registrationData)
+      });
+
+      const data = await response.json();
+      console.log('API Response:', data);
+
+      if (data.success) {
+        setMessage({ 
+          type: 'success', 
+          text: 'Registration successful! Welcome to UniRoute!' 
+        });
+        
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        setTimeout(() => {
+          navigate('/student/dashboard');
+        }, 2000);
+        
+      } else {
+        setMessage({ 
+          type: 'error', 
+          text: data.message || 'Registration failed. Please try again.' 
+        });
+      }
+      
+    } catch (error) {
+      console.error('Registration error:', error);
+      setMessage({ 
+        type: 'error', 
+        text: 'Network error. Please check your connection and try again.' 
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen flex flex-col relative overflow-hidden" style={{
       background: 'linear-gradient(135deg, #E7F3FB 0%, #C1DBF4 25%, #9ABDE6 50%, #739ED1 75%, #4C7FB1 100%)'
     }}>
@@ -104,11 +171,20 @@ const RegisterPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center space-x-2 transition-colors" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
+=======
+    <div className="min-h-screen bg-gradient-to-br from-[#E7F3FB] to-[#C1DBF4] flex flex-col">
+      {/* Header */}
+      <div className="bg-white/95 backdrop-blur-md border-b border-[#C1DBF4]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link to="/" className="flex items-center space-x-2 text-[#1D5D9B] hover:text-[#174A7C] transition-colors">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
               <ArrowLeft className="h-5 w-5" />
               <span className="font-medium">Back to Home</span>
             </Link>
             
             <div className="flex items-center space-x-2">
+<<<<<<< HEAD
               <GraduationCap className="h-8 w-8" style={{color: '#1D5D9B'}} />
               <span className="font-display font-bold text-2xl" style={{color: '#1D5D9B'}}>UniRoute</span>
             </div>
@@ -116,6 +192,15 @@ const RegisterPage = () => {
             <div className="text-sm" style={{color: '#717171'}}>
               <span>Already have an account? </span>
               <Link to="/login" className="font-medium transition-colors" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
+=======
+              <GraduationCap className="h-8 w-8 text-[#1D5D9B]" />
+              <span className="font-bold text-2xl text-[#1D5D9B]">UniRoute</span>
+            </div>
+            
+            <div className="text-sm text-[#717171]">
+              <span>Already have an account? </span>
+              <Link to="/login" className="text-[#F4D160] hover:text-[#F4D160]/80 font-medium">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                 Sign in
               </Link>
             </div>
@@ -126,6 +211,7 @@ const RegisterPage = () => {
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="max-w-md w-full">
+<<<<<<< HEAD
           <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl p-8 border relative" style={{
             borderColor: '#F5F7FA',
             boxShadow: '0 25px 50px -12px rgba(29, 93, 155, 0.25)',
@@ -150,26 +236,67 @@ const RegisterPage = () => {
                 Create Account
               </h1>
               <p style={{color: '#717171'}}>
+=======
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-[#C1DBF4]">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="bg-[#E7F3FB] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <GraduationCap className="h-8 w-8 text-[#1D5D9B]" />
+              </div>
+              <h1 className="font-bold text-3xl text-[#263238] mb-2">
+                Create Account
+              </h1>
+              <p className="text-[#717171]">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                 Start your journey to higher education
               </p>
             </div>
+
+            {/* Success/Error Message */}
+            {message.text && (
+              <div className={`mb-6 p-4 rounded-xl flex items-center space-x-3 ${
+                message.type === 'success' 
+                  ? 'bg-[#81C784]/10 border border-[#81C784]/20' 
+                  : 'bg-[#E57373]/10 border border-[#E57373]/20'
+              }`}>
+                {message.type === 'success' ? (
+                  <CheckCircle className="h-5 w-5 text-[#81C784]" />
+                ) : (
+                  <AlertCircle className="h-5 w-5 text-[#E57373]" />
+                )}
+                <span className={`text-sm font-medium ${
+                  message.type === 'success' ? 'text-[#81C784]' : 'text-[#E57373]'
+                }`}>
+                  {message.text}
+                </span>
+              </div>
+            )}
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
               {/* Name Fields */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
+<<<<<<< HEAD
                   <label htmlFor="firstName" className="block text-sm font-medium mb-2" style={{color: '#1D5D9B'}}>
                     First Name
                   </label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{color: '#717171'}} />
+=======
+                  <label htmlFor="firstName" className="block text-sm font-medium text-[#263238] mb-2">
+                    First Name
+                  </label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#717171]" />
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     <input
                       type="text"
                       id="firstName"
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleInputChange}
+<<<<<<< HEAD
                       className="w-full pl-10 pr-4 py-3 border rounded-xl transition-all bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2"
                       style={{
                         borderColor: '#F5F7FA',
@@ -185,14 +312,22 @@ const RegisterPage = () => {
                         e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
                         e.target.style.transform = 'translateY(0)';
                       }}
+=======
+                      className="w-full pl-10 pr-4 py-3 border border-[#C1DBF4] rounded-xl focus:ring-2 focus:ring-[#1D5D9B] focus:border-[#1D5D9B] transition-all bg-white"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                       placeholder="First name"
                       required
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
 
                 <div>
+<<<<<<< HEAD
                   <label htmlFor="lastName" className="block text-sm font-medium mb-2" style={{color: '#1D5D9B'}}>
+=======
+                  <label htmlFor="lastName" className="block text-sm font-medium text-[#263238] mb-2">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     Last Name
                   </label>
                   <input
@@ -201,6 +336,7 @@ const RegisterPage = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="w-full px-4 py-3 border rounded-xl transition-all bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2"
                     style={{
                       borderColor: '#F5F7FA',
@@ -216,25 +352,38 @@ const RegisterPage = () => {
                       e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
                       e.target.style.transform = 'translateY(0)';
                     }}
+=======
+                    className="w-full px-4 py-3 border border-[#C1DBF4] rounded-xl focus:ring-2 focus:ring-[#1D5D9B] focus:border-[#1D5D9B] transition-all bg-white"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     placeholder="Last name"
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
 
               {/* Email Field */}
               <div>
+<<<<<<< HEAD
                 <label htmlFor="email" className="block text-sm font-medium mb-2" style={{color: '#1D5D9B'}}>
                   Email Address
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{color: '#717171'}} />
+=======
+                <label htmlFor="email" className="block text-sm font-medium text-[#263238] mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#717171]" />
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   <input
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="w-full pl-10 pr-4 py-3 border rounded-xl transition-all bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2"
                     style={{
                       borderColor: '#F5F7FA',
@@ -250,25 +399,38 @@ const RegisterPage = () => {
                       e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
                       e.target.style.transform = 'translateY(0)';
                     }}
+=======
+                    className="w-full pl-10 pr-4 py-3 border border-[#C1DBF4] rounded-xl focus:ring-2 focus:ring-[#1D5D9B] focus:border-[#1D5D9B] transition-all bg-white"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     placeholder="Enter your email"
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
 
               {/* Phone Field */}
               <div>
+<<<<<<< HEAD
                 <label htmlFor="phone" className="block text-sm font-medium mb-2" style={{color: '#1D5D9B'}}>
                   Phone Number
                 </label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{color: '#717171'}} />
+=======
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-[#263238] mb-2">
+                  Phone Number
+                </label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#717171]" />
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   <input
                     type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="w-full pl-10 pr-4 py-3 border rounded-xl transition-all bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2"
                     style={{
                       borderColor: '#F5F7FA',
@@ -285,23 +447,37 @@ const RegisterPage = () => {
                       e.target.style.transform = 'translateY(0)';
                     }}
                     placeholder="+94 70 xxx xxxx"
+=======
+                    className="w-full pl-10 pr-4 py-3 border border-[#C1DBF4] rounded-xl focus:ring-2 focus:ring-[#1D5D9B] focus:border-[#1D5D9B] transition-all bg-white"
+                    placeholder="077 123 4567"
+                    disabled={isLoading}
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   />
                 </div>
               </div>
 
               {/* Password Field */}
               <div>
+<<<<<<< HEAD
                 <label htmlFor="password" className="block text-sm font-medium mb-2" style={{color: '#1D5D9B'}}>
                   Password
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{color: '#717171'}} />
+=======
+                <label htmlFor="password" className="block text-sm font-medium text-[#263238] mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#717171]" />
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="w-full pl-10 pr-12 py-3 border rounded-xl transition-all bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2"
                     style={{
                       borderColor: '#F5F7FA',
@@ -317,12 +493,17 @@ const RegisterPage = () => {
                       e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
                       e.target.style.transform = 'translateY(0)';
                     }}
+=======
+                    className="w-full pl-10 pr-12 py-3 border border-[#C1DBF4] rounded-xl focus:ring-2 focus:ring-[#1D5D9B] focus:border-[#1D5D9B] transition-all bg-white"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     placeholder="Create a password"
                     required
+                    disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
+<<<<<<< HEAD
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 transition-all duration-200"
                     style={{color: '#717171'}}
                     onMouseEnter={(e) => {
@@ -333,6 +514,10 @@ const RegisterPage = () => {
                       e.target.style.color = '#717171';
                       e.target.style.transform = 'translateY(-2px) scale(1)';
                     }}
+=======
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#717171] hover:text-[#1D5D9B] transition-colors"
+                    disabled={isLoading}
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
@@ -341,17 +526,26 @@ const RegisterPage = () => {
 
               {/* Confirm Password Field */}
               <div>
+<<<<<<< HEAD
                 <label htmlFor="confirmPassword" className="block text-sm font-medium mb-2" style={{color: '#1D5D9B'}}>
                   Confirm Password
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{color: '#717171'}} />
+=======
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-[#263238] mb-2">
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#717171]" />
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   <input
                     type={showConfirmPassword ? "text" : "password"}
                     id="confirmPassword"
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="w-full pl-10 pr-12 py-3 border rounded-xl transition-all bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2"
                     style={{
                       borderColor: '#F5F7FA',
@@ -367,12 +561,17 @@ const RegisterPage = () => {
                       e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
                       e.target.style.transform = 'translateY(0)';
                     }}
+=======
+                    className="w-full pl-10 pr-12 py-3 border border-[#C1DBF4] rounded-xl focus:ring-2 focus:ring-[#1D5D9B] focus:border-[#1D5D9B] transition-all bg-white"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     placeholder="Confirm your password"
                     required
+                    disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+<<<<<<< HEAD
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 transition-all duration-200"
                     style={{color: '#717171'}}
                     onMouseEnter={(e) => {
@@ -383,6 +582,10 @@ const RegisterPage = () => {
                       e.target.style.color = '#717171';
                       e.target.style.transform = 'translateY(-2px) scale(1)';
                     }}
+=======
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#717171] hover:text-[#1D5D9B] transition-colors"
+                    disabled={isLoading}
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   >
                     {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
@@ -398,13 +601,19 @@ const RegisterPage = () => {
                     name="agreeToTerms"
                     checked={formData.agreeToTerms}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="h-4 w-4 rounded focus:outline-none mt-0.5 transition-transform hover:scale-110"
                     style={{
                       accentColor: '#1D5D9B',
                       borderColor: '#F5F7FA'
                     }}
+=======
+                    className="h-4 w-4 text-[#1D5D9B] border-[#C1DBF4] rounded focus:ring-[#1D5D9B] mt-0.5"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     required
+                    disabled={isLoading}
                   />
+<<<<<<< HEAD
                   <label htmlFor="agreeToTerms" className="text-sm" style={{color: '#717171'}}>
                     I agree to the{' '}
                     <a href="#" className="underline transition-colors" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
@@ -412,6 +621,15 @@ const RegisterPage = () => {
                     </a>
                     {' '}and{' '}
                     <a href="#" className="underline transition-colors" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
+=======
+                  <label htmlFor="agreeToTerms" className="text-sm text-[#717171]">
+                    I agree to the{' '}
+                    <a href="#" className="text-[#F4D160] hover:text-[#F4D160]/80 underline">
+                      Terms of Service
+                    </a>
+                    {' '}and{' '}
+                    <a href="#" className="text-[#F4D160] hover:text-[#F4D160]/80 underline">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                       Privacy Policy
                     </a>
                   </label>
@@ -424,6 +642,7 @@ const RegisterPage = () => {
                     name="receiveUpdates"
                     checked={formData.receiveUpdates}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="h-4 w-4 rounded focus:outline-none mt-0.5 transition-transform hover:scale-110"
                     style={{
                       accentColor: '#1D5D9B',
@@ -431,6 +650,12 @@ const RegisterPage = () => {
                     }}
                   />
                   <label htmlFor="receiveUpdates" className="text-sm" style={{color: '#717171'}}>
+=======
+                    className="h-4 w-4 text-[#1D5D9B] border-[#C1DBF4] rounded focus:ring-[#1D5D9B] mt-0.5"
+                    disabled={isLoading}
+                  />
+                  <label htmlFor="receiveUpdates" className="text-sm text-[#717171]">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     I want to receive updates about new features and university programs
                   </label>
                 </div>
@@ -439,6 +664,7 @@ const RegisterPage = () => {
               {/* Submit Button */}
               <button
                 type="submit"
+<<<<<<< HEAD
                 className="w-full text-white py-3 px-4 rounded-xl font-semibold focus:outline-none transition-all transform relative overflow-hidden group"
                 style={{
                   backgroundColor: '#1D5D9B',
@@ -511,6 +737,31 @@ const RegisterPage = () => {
               <p style={{color: '#717171'}}>
                 Already have an account?{' '}
                 <Link to="/login" className="font-medium transition-colors hover:underline" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
+=======
+                disabled={isLoading}
+                className={`w-full py-3 px-4 rounded-xl font-semibold focus:ring-2 focus:ring-[#1D5D9B] focus:outline-none transition-all transform hover:-translate-y-0.5 hover:shadow-lg ${
+                  isLoading 
+                    ? 'bg-[#B0B0B0] cursor-not-allowed text-white' 
+                    : 'bg-[#1D5D9B] hover:bg-[#174A7C] text-white'
+                }`}
+              >
+                {isLoading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Creating Account...</span>
+                  </div>
+                ) : (
+                  'Create Account'
+                )}
+              </button>
+            </form>
+
+            {/* Sign In Link */}
+            <div className="mt-8 text-center">
+              <p className="text-[#717171]">
+                Already have an account?{' '}
+                <Link to="/login" className="text-[#F4D160] hover:text-[#F4D160]/80 font-medium transition-colors">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   Sign in here
                 </Link>
               </p>

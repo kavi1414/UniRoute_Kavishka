@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import Sidebar from '../../components/Sidebar';
+=======
+import CompanySidebar from '../../components/Navigation/CompanySidebar'; // CHANGED: Import CompanySidebar
+import CompanyDashboardNavbar from '../../components/Navigation/CompanyDashboardNavbar';
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 import './Announcement.css';
 
 const Announcement = () => {
   const [searchTerm, setSearchTerm] = useState('');
+<<<<<<< HEAD
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+=======
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // CHANGED: Rename from isSidebarExpanded to isSidebarOpen
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   const [showViewModal, setShowViewModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -181,9 +190,15 @@ const Announcement = () => {
   };
 
   // Handle Delete
+<<<<<<< HEAD
   const handleDelete = (announcementId) => {
     if (window.confirm('Are you sure you want to delete this announcement?')) {
       setAnnouncements(announcements.filter(announcement => announcement.id !== announcementId));
+=======
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this announcement?')) {
+      setAnnouncements(announcements.filter(announcement => announcement.id !== id));
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
     }
   };
 
@@ -208,6 +223,7 @@ const Announcement = () => {
 
   return (
     <div className="announcement-page">
+<<<<<<< HEAD
       <div className="announcement-container">
         <Sidebar 
           activePage="announcement" 
@@ -289,28 +305,124 @@ const Announcement = () => {
                       <div className="action-buttons">
                         <button 
                           className="btn-action btn-view" 
+=======
+      {/* SIDEBAR AT THE VERY TOP - OUTSIDE CONTAINER */}
+      <CompanySidebar 
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
+
+      {/* NAVBAR */}
+      <CompanyDashboardNavbar
+        onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        sidebarExpanded={isSidebarOpen}
+      />
+
+      {/* MAIN CONTENT */}
+      <main className={`announcement-main ${isSidebarOpen ? 'sidebar-expanded' : 'sidebar-collapsed'}`}>
+        <section className="announcement-search">
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search announcements, categories, or content..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+          
+          <div className="filter-container">
+            <select 
+              value={selectedCategory} 
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="filter-select"
+            >
+              {categories.map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+        </section>
+
+        <section className="announcements">
+          <div className="announcements-header">
+            <h2>Announcements</h2>
+            <button className="btn-add-new" onClick={handleAddNew}>
+              + Add Announcements
+            </button>
+          </div>
+
+          <div className="announcements-table">
+            <div className="table-header">
+              <div className="header-cell announcement-col">ANNOUNCEMENT</div>
+              <div className="header-cell date-col">PUBLISH DATE</div>
+              <div className="header-cell status-col">STATUS</div>
+              <div className="header-cell actions-col">ACTIONS</div>
+            </div>
+
+            <div className="table-body">
+              {filteredAnnouncements.map((announcement) => (
+                <div key={announcement.id} className="table-row">
+                  <div className="cell announcement-cell">
+                    <div className="announcement-info">
+                      <div className="announcement-icon">📢</div>
+                      <div className="announcement-details">
+                        <h3 className="announcement-title">{announcement.title}</h3>
+                        <p className="announcement-subtitle">{announcement.category}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="cell date-cell">
+                    <span className="date-text">{new Date(announcement.date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="cell status-cell">
+                    <span 
+                      className={`status-badge ${announcement.status}`}
+                      style={{ backgroundColor: getStatusColor(announcement.status) }}
+                    >
+                      {announcement.status === 'published' ? 'Published' : 'Draft'}
+                    </span>
+                  </div>
+                  <div className="cell actions-cell">
+                    <div className="company-announcement-actions-cell">
+                      <div className="company-announcement-action-buttons">
+                        <button 
+                          className="company-announcement-btn-action" 
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                           onClick={() => handleView(announcement)}
                           title="View Announcement"
                         >
                           👁️
                         </button>
                         <button 
+<<<<<<< HEAD
                           className="btn-action btn-edit" 
+=======
+                          className="company-announcement-btn-action" 
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                           onClick={() => handleEdit(announcement)}
                           title="Edit Announcement"
                         >
                           ✏️
                         </button>
+<<<<<<< HEAD
                          <button 
                           className="btn-action btn-view" 
                           onClick={() => handleView(announcement)}
                           title="View Announcement"
+=======
+                        <button 
+                          className="company-announcement-btn-action company-announcement-btn-delete" 
+                          onClick={() => handleDelete(announcement.id)}
+                          title="Delete Announcement"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                         >
                           ❌
                         </button>
                       </div>
                     </div>
                   </div>
+<<<<<<< HEAD
                 ))}
               </div>
             </div>
@@ -421,11 +533,124 @@ const Announcement = () => {
                     {selectedAnnouncement.tags.map((tag, index) => (
                       <span key={index} className="tag">{tag}</span>
                     ))}
+=======
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="pagination">
+            <button className="pagination-btn">
+              ← Previous Page
+            </button>
+            <span className="pagination-info">PAGE 1 OF 1</span>
+            <button className="pagination-btn">
+              Next Page →
+            </button>
+          </div>
+        </section>
+
+        <section className="announcement-stats">
+          <div className="stats-content">
+            <h2>Announcement Statistics</h2>
+            <div className="stats-grid">
+              <div className="stat-item">
+                <div className="stat-icon">📢</div>
+                <div className="stat-value">{announcements.length}</div>
+                <div className="stat-label">Total Announcements</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">✅</div>
+                <div className="stat-value">{announcements.filter(a => a.status === 'published').length}</div>
+                <div className="stat-label">Published</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">📝</div>
+                <div className="stat-value">{announcements.filter(a => a.status === 'draft').length}</div>
+                <div className="stat-label">Drafts</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">👁️</div>
+                <div className="stat-value">{announcements.reduce((sum, a) => sum + a.views, 0)}</div>
+                <div className="stat-label">Total Views</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer className="announcement-footer">
+          <div className="footer-content">
+            <h3>Stay Connected</h3>
+            <div className="newsletter">
+              <input type="email" placeholder="Your email" />
+              <button>Subscribe</button>
+            </div>
+          </div>
+        </footer>
+
+        {/* View Modal */}
+        {showViewModal && selectedAnnouncement && (
+          <div className="company-announcement-admin-modal-overlay" onClick={() => setShowViewModal(false)}>
+            <div className="company-announcement-admin-modal-content" onClick={e => e.stopPropagation()}>
+              <div className="company-announcement-admin-modal-header">
+                <h2>View Announcement</h2>
+                <button className="company-announcement-admin-modal-close" onClick={() => setShowViewModal(false)}>✕</button>
+              </div>
+              <div className="company-announcement-admin-modal-body">
+                <img src={selectedAnnouncement.image} alt={selectedAnnouncement.title} className="company-announcement-admin-modal-image" />
+                <div className="company-announcement-admin-modal-info">
+                  <div className="company-announcement-admin-modal-title-section">
+                    <h3>{selectedAnnouncement.title}</h3>
+                    <div className="company-announcement-admin-modal-badges">
+                      <span 
+                        className="status-badge" 
+                        style={{ backgroundColor: getStatusColor(selectedAnnouncement.status) }}
+                      >
+                        {selectedAnnouncement.status}
+                      </span>
+                      <span 
+                        className="priority-badge" 
+                        style={{ color: getPriorityColor(selectedAnnouncement.priority) }}
+                      >
+                        {selectedAnnouncement.priority} priority
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="company-announcement-admin-modal-meta">
+                    <div className="company-announcement-admin-meta-item">
+                      <strong>📅 Date:</strong> {new Date(selectedAnnouncement.date).toLocaleDateString()}
+                    </div>
+                    <div className="company-announcement-admin-meta-item">
+                      <strong>👤 Author:</strong> {selectedAnnouncement.author}
+                    </div>
+                    <div className="company-announcement-admin-meta-item">
+                      <strong>🏷️ Category:</strong> {selectedAnnouncement.category}
+                    </div>
+                    <div className="company-announcement-admin-meta-item">
+                      <strong>📊 Statistics:</strong> {selectedAnnouncement.views} views, {selectedAnnouncement.likes} likes
+                    </div>
+                  </div>
+                  
+                  <div className="company-announcement-admin-modal-description">
+                    <strong>📝 Description:</strong>
+                    <p>{selectedAnnouncement.description}</p>
+                  </div>
+                  
+                  <div className="company-announcement-admin-modal-tags">
+                    <strong>🏷️ Tags:</strong>
+                    <div className="company-announcement-admin-tags-container">
+                      {selectedAnnouncement.tags.map((tag, index) => (
+                        <span key={index} className="tag">{tag}</span>
+                      ))}
+                    </div>
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   </div>
                 </div>
               </div>
             </div>
           </div>
+<<<<<<< HEAD
         </div>
       )}
 
@@ -486,10 +711,31 @@ const Announcement = () => {
                       type="date"
                       name="date"
                       value={editFormData.date}
+=======
+        )}
+
+        {/* Edit Modal */}
+        {showEditModal && selectedAnnouncement && (
+          <div className="company-announcement-admin-modal-overlay" onClick={() => setShowEditModal(false)}>
+            <div className="company-announcement-admin-modal-content" onClick={e => e.stopPropagation()}>
+              <div className="company-announcement-admin-modal-header">
+                <h2>Edit Announcement</h2>
+                <button className="company-announcement-admin-modal-close" onClick={() => setShowEditModal(false)}>✕</button>
+              </div>
+              <div className="company-announcement-admin-modal-body">
+                <form onSubmit={handleSaveEdit}>
+                  <div className="company-announcement-admin-form-group">
+                    <label>Title</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={editFormData.title}
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                       onChange={handleInputChange}
                       required
                     />
                   </div>
+<<<<<<< HEAD
                   <div className="form-group">
                     <label>Status</label>
                     <select
@@ -618,10 +864,74 @@ const Announcement = () => {
                       type="date"
                       name="date"
                       value={editFormData.date}
+=======
+                  
+                  <div className="company-announcement-admin-form-row">
+                    <div className="company-announcement-admin-form-group">
+                      <label>Category</label>
+                      <select
+                        name="category"
+                        value={editFormData.category}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        {categories.filter(cat => cat !== 'All').map(category => (
+                          <option key={category} value={category}>{category}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="company-announcement-admin-form-group">
+                      <label>Priority</label>
+                      <select
+                        name="priority"
+                        value={editFormData.priority}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-row">
+                    <div className="company-announcement-admin-form-group">
+                      <label>Date</label>
+                      <input
+                        type="date"
+                        name="date"
+                        value={editFormData.date}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="company-announcement-admin-form-group">
+                      <label>Status</label>
+                      <select
+                        name="status"
+                        value={editFormData.status}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option value="draft">Draft</option>
+                        <option value="published">Published</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-group">
+                    <label>Author</label>
+                    <input
+                      type="text"
+                      name="author"
+                      value={editFormData.author}
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                       onChange={handleInputChange}
                       required
                     />
                   </div>
+<<<<<<< HEAD
                   <div className="form-group">
                     <label>Status</label>
                     <select
@@ -692,6 +1002,187 @@ const Announcement = () => {
           </div>
         </div>
       )}
+=======
+                  
+                  <div className="company-announcement-admin-form-group">
+                    <label>Description</label>
+                    <textarea
+                      name="description"
+                      value={editFormData.description}
+                      onChange={handleInputChange}
+                      rows="4"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-group">
+                    <label>Tags (comma-separated)</label>
+                    <input
+                      type="text"
+                      name="tags"
+                      value={editFormData.tags}
+                      onChange={handleInputChange}
+                      placeholder="Achievement, Partnership, Innovation"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-group">
+                    <label>Image URL</label>
+                    <input
+                      type="url"
+                      name="image"
+                      value={editFormData.image}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-actions">
+                    <button type="button" className="company-announcement-admin-btn-cancel" onClick={() => setShowEditModal(false)}>
+                      Cancel
+                    </button>
+                    <button type="submit" className="company-announcement-admin-btn-save">Save Changes</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Add New Modal */}
+        {showAddModal && (
+          <div className="company-announcement-admin-modal-overlay" onClick={() => setShowAddModal(false)}>
+            <div className="company-announcement-admin-modal-content" onClick={e => e.stopPropagation()}>
+              <div className="company-announcement-admin-modal-header">
+                <h2>Add New Announcement</h2>
+                <button className="company-announcement-admin-modal-close" onClick={() => setShowAddModal(false)}>✕</button>
+              </div>
+              <div className="company-announcement-admin-modal-body">
+                <form onSubmit={handleAddSave}>
+                  <div className="company-announcement-admin-form-group">
+                    <label>Title</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={editFormData.title}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-row">
+                    <div className="company-announcement-admin-form-group">
+                      <label>Category</label>
+                      <select
+                        name="category"
+                        value={editFormData.category}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        {categories.filter(cat => cat !== 'All').map(category => (
+                          <option key={category} value={category}>{category}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="company-announcement-admin-form-group">
+                      <label>Priority</label>
+                      <select
+                        name="priority"
+                        value={editFormData.priority}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-row">
+                    <div className="company-announcement-admin-form-group">
+                      <label>Date</label>
+                      <input
+                        type="date"
+                        name="date"
+                        value={editFormData.date}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="company-announcement-admin-form-group">
+                      <label>Status</label>
+                      <select
+                        name="status"
+                        value={editFormData.status}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option value="draft">Draft</option>
+                        <option value="published">Published</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-group">
+                    <label>Author</label>
+                    <input
+                      type="text"
+                      name="author"
+                      value={editFormData.author}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-group">
+                    <label>Description</label>
+                    <textarea
+                      name="description"
+                      value={editFormData.description}
+                      onChange={handleInputChange}
+                      rows="4"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-group">
+                    <label>Tags (comma-separated)</label>
+                    <input
+                      type="text"
+                      name="tags"
+                      value={editFormData.tags}
+                      onChange={handleInputChange}
+                      placeholder="Achievement, Partnership, Innovation"
+                      required
+                    />
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-group">
+                    <label>Image URL</label>
+                    <input
+                      type="url"
+                      name="image"
+                      value={editFormData.image}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  
+                  <div className="company-announcement-admin-form-actions">
+                    <button type="button" className="company-announcement-admin-btn-cancel" onClick={() => setShowAddModal(false)}>
+                      Cancel
+                    </button>
+                    <button type="submit" className="company-announcement-admin-btn-save">Add Announcement</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
     </div>
   );
 };

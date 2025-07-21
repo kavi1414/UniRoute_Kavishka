@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import Sidebar from '../../components/Sidebar';
+=======
+import CompanyUserSidebar from '../../components/Navigation/CompanyUsersidebar'; // CHANGED: Import CompanyUserSidebar
+import CompanyDashboardNavbar from '../../components/Navigation/CompanyDashboardNavbar';
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 import './Courseuser.css';
 
 const Courseuser = () => {
   const [searchTerm, setSearchTerm] = useState('');
+<<<<<<< HEAD
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+=======
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // CHANGED: Rename from isSidebarExpanded to isSidebarOpen
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
@@ -160,6 +169,7 @@ const Courseuser = () => {
     setShowViewModal(true);
   };
 
+<<<<<<< HEAD
   
 
   return (
@@ -327,6 +337,172 @@ const Courseuser = () => {
           </footer>
         </main>
       </div>
+=======
+  return (
+    <div className="courseuser-page">
+      {/* SIDEBAR AT THE VERY TOP - OUTSIDE CONTAINER */}
+      <CompanyUserSidebar 
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
+
+      {/* NAVBAR */}
+      <CompanyDashboardNavbar
+        onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        sidebarExpanded={isSidebarOpen}
+      />
+
+      {/* MAIN CONTENT */}
+      <main className={`courseuser-main ${isSidebarOpen ? 'sidebar-expanded' : 'sidebar-collapsed'}`}>
+        {/* REMOVED HERO SECTION */}
+
+        {/* Search and Filter Section */}
+        <section className="courseuser-search">
+          <div className="courseuser-search-container">
+            <input
+              type="text"
+              placeholder="Search courses, instructors, or skills..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="courseuser-search-input"
+            />
+          </div>
+          
+          <div className="courseuser-filter-container">
+            <select 
+              value={selectedCategory} 
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="courseuser-filter-select"
+            >
+              {categories.map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+            
+            <select 
+              value={selectedLevel} 
+              onChange={(e) => setSelectedLevel(e.target.value)}
+              className="courseuser-filter-select"
+            >
+              {levels.map(level => (
+                <option key={level} value={level}>{level}</option>
+              ))}
+            </select>
+          </div>
+        </section>
+
+        {/* Courses Section - NO Add New button for users */}
+        <section className="courseuser-section-unique">
+          <div className="courseuser-section-header-unique">
+            <h2>All Courses</h2>
+            {/* NO Add New button for user */}
+          </div>
+          
+          {/* Courses Grid - Same as Course page */}
+          <div className="courseuser-grid-container-unique">
+            {filteredCourses.map((course) => (
+              <div key={course.id} className="courseuser-card-unique">
+                {/* NO delete button for user */}
+                
+                <div className="courseuser-card-image-container">
+                  <img src={course.image} alt={course.title} className="courseuser-card-image" />
+                  <div className="courseuser-card-overlay">
+                    <span className="courseuser-card-category">{course.category}</span>
+                    <div className="courseuser-card-stats">
+                      <span>👥 {course.enrollments}</span>
+                      <span>⭐ {course.rating}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="courseuser-card-content">
+                  <div className="courseuser-card-header">
+                    <h3 className="courseuser-card-title">{course.title}</h3>
+                    <div className="courseuser-card-meta">
+                      <span 
+                        className="courseuser-status-badge" 
+                        style={{ backgroundColor: getStatusColor(course.status) }}
+                      >
+                        {course.status}
+                      </span>
+                      <span 
+                        className="courseuser-level-badge" 
+                        style={{ color: getLevelColor(course.level) }}
+                      >
+                        {course.level}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="courseuser-card-details">
+                    <span>⏱️ {course.duration}</span>
+                    <span>📚 {course.level}</span>
+                    <span>💰 ${course.price}</span>
+                  </div>
+                  
+                  <div className="courseuser-card-instructor">
+                    <span>👨‍🏫 {course.instructor}</span>
+                  </div>
+                  
+                  <p className="courseuser-card-description">{course.description}</p>
+                  
+                  <div className="courseuser-card-skills">
+                    {course.skills.map((skill, index) => (
+                      <span key={index} className="courseuser-skill">{skill}</span>
+                    ))}
+                  </div>
+                  
+                  <div className="courseuser-card-actions">
+                    <button className="courseuser-btn-view" onClick={() => handleView(course)}>View</button>
+                    {/* NO Edit button for user */}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Course Statistics - Same as Course page */}
+        <section className="courseuser-stats">
+          <div className="courseuser-stats-content">
+            <h2>Course Statistics</h2>
+            <div className="courseuser-stats-grid">
+              <div className="courseuser-stat-item">
+                <div className="courseuser-stat-icon">📚</div>
+                <div className="courseuser-stat-value">{courses.length}</div>
+                <div className="courseuser-stat-label">Total Courses</div>
+              </div>
+              <div className="courseuser-stat-item">
+                <div className="courseuser-stat-icon">✅</div>
+                <div className="courseuser-stat-value">{courses.filter(c => c.status === 'active').length}</div>
+                <div className="courseuser-stat-label">Active Courses</div>
+              </div>
+              <div className="courseuser-stat-item">
+                <div className="courseuser-stat-icon">👥</div>
+                <div className="courseuser-stat-value">{courses.reduce((sum, c) => sum + c.enrollments, 0)}</div>
+                <div className="courseuser-stat-label">Total Enrollments</div>
+              </div>
+              <div className="courseuser-stat-item">
+                <div className="courseuser-stat-icon">💰</div>
+                <div className="courseuser-stat-value">${courses.reduce((sum, c) => sum + (c.price * c.enrollments), 0).toLocaleString()}</div>
+                <div className="courseuser-stat-label">Total Revenue</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer - Same as Course page */}
+        <footer className="courseuser-footer">
+          <div className="courseuser-footer-content">
+            <h3>Stay Connected</h3>
+            <div className="courseuser-newsletter">
+              <input type="email" placeholder="Your email" />
+              <button>Subscribe</button>
+            </div>
+          </div>
+        </footer>
+      </main>
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 
       {/* View Modal - Same as Course page */}
       {showViewModal && selectedCourse && (

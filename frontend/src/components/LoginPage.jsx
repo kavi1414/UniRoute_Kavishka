@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { GraduationCap, Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { GraduationCap, Mail, Lock, Eye, EyeOff, ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' });
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -16,15 +20,80 @@ const LoginPage = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    
+    if (message.text) {
+      setMessage({ type: '', text: '' });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempt:', formData);
+    setIsLoading(true);
+    setMessage({ type: '', text: '' });
+    
+    try {
+      console.log('Login attempt:', formData);
+
+      const response = await fetch('http://127.0.0.1:8000/api/accounts/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+      console.log('Login API Response:', data);
+
+      if (data.success) {
+        setMessage({ 
+          type: 'success', 
+          text: 'Login successful! Welcome back!' 
+        });
+        
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        setTimeout(() => {
+          const userType = data.user.user_type;
+          console.log('User type:', userType);
+          
+          switch(userType) {
+            case 'admin':
+              navigate('/admin/dashboard');
+              break;
+            case 'uni_student':
+              navigate('/university-student/dashboard');
+              break;
+            case 'student':
+            default:
+              navigate('/student/dashboard');
+              break;
+          }
+        }, 1000);
+        
+      } else {
+        setMessage({ 
+          type: 'error', 
+          text: data.message || 'Login failed. Please try again.' 
+        });
+      }
+      
+    } catch (error) {
+      console.error('Login error:', error);
+      setMessage({ 
+        type: 'error', 
+        text: 'Network error. Please check your connection and try again.' 
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen flex flex-col relative overflow-hidden" style={{
       background: 'linear-gradient(135deg, #E7F3FB 0%, #C1DBF4 25%, #9ABDE6 50%, #739ED1 75%, #4C7FB1 100%)'
     }}>
@@ -87,11 +156,20 @@ const LoginPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <Link to="/" className="flex items-center space-x-2 transition-colors" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
+=======
+    <div className="min-h-screen bg-gradient-to-br from-[#E7F3FB] to-[#C1DBF4] flex flex-col">
+      {/* Header */}
+      <div className="bg-white/95 backdrop-blur-md border-b border-[#C1DBF4]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <Link to="/" className="flex items-center space-x-2 text-[#1D5D9B] hover:text-[#174A7C] transition-colors">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
               <ArrowLeft className="h-5 w-5" />
               <span className="font-medium">Back to Home</span>
             </Link>
             
             <div className="flex items-center space-x-2">
+<<<<<<< HEAD
               <GraduationCap className="h-8 w-8" style={{color: '#1D5D9B'}} />
               <span className="font-display font-bold text-2xl" style={{color: '#1D5D9B'}}>UniRoute</span>
             </div>
@@ -99,6 +177,15 @@ const LoginPage = () => {
             <div className="text-sm" style={{color: '#717171'}}>
               <span>New here? </span>
               <Link to="/register" className="font-medium transition-colors" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
+=======
+              <GraduationCap className="h-8 w-8 text-[#1D5D9B]" />
+              <span className="font-bold text-2xl text-[#1D5D9B]">UniRoute</span>
+            </div>
+            
+            <div className="text-sm text-[#717171]">
+              <span>New here? </span>
+              <Link to="/register" className="text-[#F4D160] hover:text-[#F4D160]/80 font-medium">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                 Create account
               </Link>
             </div>
@@ -109,6 +196,7 @@ const LoginPage = () => {
       {/* Main Content */}
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="max-w-md w-full">
+<<<<<<< HEAD
           <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl p-8 border relative" style={{
             borderColor: '#F5F7FA',
             boxShadow: '0 25px 50px -12px rgba(29, 93, 155, 0.25)',
@@ -133,25 +221,66 @@ const LoginPage = () => {
                 Welcome Back
               </h1>
               <p style={{color: '#717171'}}>
+=======
+          <div className="bg-white rounded-2xl shadow-xl p-8 border border-[#C1DBF4]">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <div className="bg-[#E7F3FB] w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <GraduationCap className="h-8 w-8 text-[#1D5D9B]" />
+              </div>
+              <h1 className="font-bold text-3xl text-[#263238] mb-2">
+                Welcome Back
+              </h1>
+              <p className="text-[#717171]">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                 Sign in to continue your educational journey
               </p>
             </div>
+
+            {/* Success/Error Message */}
+            {message.text && (
+              <div className={`mb-6 p-4 rounded-xl flex items-center space-x-3 ${
+                message.type === 'success' 
+                  ? 'bg-[#81C784]/10 border border-[#81C784]/20' 
+                  : 'bg-[#E57373]/10 border border-[#E57373]/20'
+              }`}>
+                {message.type === 'success' ? (
+                  <CheckCircle className="h-5 w-5 text-[#81C784]" />
+                ) : (
+                  <AlertCircle className="h-5 w-5 text-[#E57373]" />
+                )}
+                <span className={`text-sm font-medium ${
+                  message.type === 'success' ? 'text-[#81C784]' : 'text-[#E57373]'
+                }`}>
+                  {message.text}
+                </span>
+              </div>
+            )}
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
               {/* Email Field */}
               <div>
+<<<<<<< HEAD
                 <label htmlFor="email" className="block text-sm font-medium mb-2" style={{color: '#1D5D9B'}}>
                   Email Address
                 </label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{color: '#717171'}} />
+=======
+                <label htmlFor="email" className="block text-sm font-medium text-[#263238] mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#717171]" />
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   <input
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="w-full pl-10 pr-4 py-3 border rounded-xl transition-all bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2"
                     style={{
                       borderColor: '#F5F7FA',
@@ -168,24 +297,38 @@ const LoginPage = () => {
                       e.target.style.transform = 'translateY(0)';
                     }}
                     placeholder="Enter your email"
+=======
+                    className="w-full pl-10 pr-4 py-3 border border-[#C1DBF4] rounded-xl focus:ring-2 focus:ring-[#1D5D9B] focus:border-[#1D5D9B] transition-all bg-white"
+                    placeholder="Enter your email address"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
 
               {/* Password Field */}
               <div>
+<<<<<<< HEAD
                 <label htmlFor="password" className="block text-sm font-medium mb-2" style={{color: '#1D5D9B'}}>
                   Password
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5" style={{color: '#717171'}} />
+=======
+                <label htmlFor="password" className="block text-sm font-medium text-[#263238] mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-[#717171]" />
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="w-full pl-10 pr-12 py-3 border rounded-xl transition-all bg-white/90 backdrop-blur-sm focus:outline-none focus:ring-2"
                     style={{
                       borderColor: '#F5F7FA',
@@ -201,12 +344,17 @@ const LoginPage = () => {
                       e.target.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.05)';
                       e.target.style.transform = 'translateY(0)';
                     }}
+=======
+                    className="w-full pl-10 pr-12 py-3 border border-[#C1DBF4] rounded-xl focus:ring-2 focus:ring-[#1D5D9B] focus:border-[#1D5D9B] transition-all bg-white"
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     placeholder="Enter your password"
                     required
+                    disabled={isLoading}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
+<<<<<<< HEAD
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 transition-all duration-200"
                     style={{color: '#717171'}}
                     onMouseEnter={(e) => {
@@ -217,6 +365,10 @@ const LoginPage = () => {
                       e.target.style.color = '#717171';
                       e.target.style.transform = 'translateY(-2px) scale(1)';
                     }}
+=======
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#717171] hover:text-[#1D5D9B] transition-colors"
+                    disabled={isLoading}
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
@@ -232,6 +384,7 @@ const LoginPage = () => {
                     name="rememberMe"
                     checked={formData.rememberMe}
                     onChange={handleInputChange}
+<<<<<<< HEAD
                     className="h-4 w-4 rounded focus:outline-none transition-transform hover:scale-110"
                     style={{
                       accentColor: '#1D5D9B',
@@ -243,6 +396,16 @@ const LoginPage = () => {
                   </label>
                 </div>
                 <a href="#" className="text-sm transition-colors hover:underline" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
+=======
+                    className="h-4 w-4 text-[#1D5D9B] border-[#C1DBF4] rounded focus:ring-[#1D5D9B]"
+                    disabled={isLoading}
+                  />
+                  <label htmlFor="rememberMe" className="ml-2 text-sm text-[#717171]">
+                    Remember me
+                  </label>
+                </div>
+                <a href="#" className="text-sm text-[#F4D160] hover:text-[#F4D160]/80 transition-colors">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   Forgot password?
                 </a>
               </div>
@@ -250,6 +413,7 @@ const LoginPage = () => {
               {/* Submit Button */}
               <button
                 type="submit"
+<<<<<<< HEAD
                 className="w-full text-white py-3 px-4 rounded-xl font-semibold focus:outline-none transition-all transform relative overflow-hidden group"
                 style={{
                   backgroundColor: '#1D5D9B',
@@ -322,12 +486,38 @@ const LoginPage = () => {
               <p style={{color: '#717171'}}>
                 Don't have an account?{' '}
                 <Link to="/register" className="font-medium transition-all hover:underline" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>
+=======
+                disabled={isLoading}
+                className={`w-full py-3 px-4 rounded-xl font-semibold focus:ring-2 focus:ring-[#1D5D9B] focus:outline-none transition-all transform hover:-translate-y-0.5 hover:shadow-lg ${
+                  isLoading 
+                    ? 'bg-[#B0B0B0] cursor-not-allowed text-white' 
+                    : 'bg-[#1D5D9B] hover:bg-[#174A7C] text-white'
+                }`}
+              >
+                {isLoading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Signing In...</span>
+                  </div>
+                ) : (
+                  'Sign In'
+                )}
+              </button>
+            </form>
+
+            {/* Sign Up Link */}
+            <div className="mt-8 text-center">
+              <p className="text-[#717171]">
+                Don't have an account?{' '}
+                <Link to="/register" className="text-[#F4D160] hover:text-[#F4D160]/80 font-medium transition-colors">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                   Sign up for free
                 </Link>
               </p>
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* Additional Info */}
           <div className="mt-8 text-center">
             <p className="text-sm" style={{color: '#717171'}}>
@@ -337,6 +527,29 @@ const LoginPage = () => {
               <a href="#" className="underline transition-all hover:text-blue-600" style={{color: '#1D5D9B'}} onMouseEnter={(e) => e.target.style.color = '#174A7C'} onMouseLeave={(e) => e.target.style.color = '#1D5D9B'}>Privacy Policy</a>
             </p>
           </div>
+=======
+          {/* Test Credentials Info */}
+          {/* <div className="mt-6 p-4 bg-white/80 border border-[#C1DBF4] rounded-xl backdrop-blur-sm">
+            <h3 className="text-sm font-semibold text-[#263238] mb-2">Test Credentials:</h3>
+            <div className="space-y-2">
+              <div className="text-xs text-[#717171]">
+                <strong>Student:</strong><br/>
+                Email: <code className="bg-[#E7F3FB] px-1 rounded">perera@gmail.com</code><br/>
+                Password: <code className="bg-[#E7F3FB] px-1 rounded">mypassword123</code>
+              </div>
+              <div className="text-xs text-[#717171]">
+                <strong>Admin:</strong><br/>
+                Email: <code className="bg-[#E7F3FB] px-1 rounded">admin@uniroute.com</code><br/>
+                Password: <code className="bg-[#E7F3FB] px-1 rounded">admin123</code>
+              </div>
+              <div className="text-xs text-[#717171]">
+                <strong>University Student:</strong><br/>
+                Email: <code className="bg-[#E7F3FB] px-1 rounded">sarah.silva@university.lk</code><br/>
+                Password: <code className="bg-[#E7F3FB] px-1 rounded">sarah123</code>
+              </div>
+            </div>
+          </div> */}
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
         </div>
       </div>
 

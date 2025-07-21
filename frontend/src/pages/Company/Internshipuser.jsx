@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import Sidebar from '../../components/Sidebar';
+=======
+import CompanyUserSidebar from '../../components/Navigation/CompanyUsersidebar'; // CHANGED: Import CompanyUserSidebar
+import CompanyDashboardNavbar from '../../components/Navigation/CompanyDashboardNavbar';
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
 import './Internshipuser.css';
 
 const Internshipuser = () => {
   const [searchTerm, setSearchTerm] = useState('');
+<<<<<<< HEAD
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+=======
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // CHANGED: Rename from isSidebarExpanded to isSidebarOpen
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedInternship, setSelectedInternship] = useState(null);
   const [selectedDepartment, setSelectedDepartment] = useState('All');
@@ -176,6 +185,7 @@ const Internshipuser = () => {
 
   return (
     <div className="internship-page">
+<<<<<<< HEAD
       <div className="internship-container">
         {/* Sidebar Component with callback */}
         <Sidebar 
@@ -356,6 +366,187 @@ const Internshipuser = () => {
                 <div className="modal-title-section">
                   <h3>{selectedInternship.title}</h3>
                   <div className="modal-badges">
+=======
+      {/* SIDEBAR AT THE VERY TOP - OUTSIDE CONTAINER */}
+      <CompanyUserSidebar 
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
+
+      {/* NAVBAR */}
+      <CompanyDashboardNavbar
+        onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        sidebarExpanded={isSidebarOpen}
+      />
+
+      {/* MAIN CONTENT */}
+      <main className={`internship-main ${isSidebarOpen ? 'sidebar-expanded' : 'sidebar-collapsed'}`}>
+        {/* Search and Filter Section */}
+        <section className="internship-search">
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search internships, companies, or skills..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+          
+          <div className="filter-container">
+            <select 
+              value={selectedDepartment} 
+              onChange={(e) => setSelectedDepartment(e.target.value)}
+              className="filter-select"
+            >
+              {departments.map(department => (
+                <option key={department} value={department}>{department}</option>
+              ))}
+            </select>
+            
+            <select 
+              value={selectedDuration} 
+              onChange={(e) => setSelectedDuration(e.target.value)}
+              className="filter-select"
+            >
+              {durations.map(duration => (
+                <option key={duration} value={duration}>{duration}</option>
+              ))}
+            </select>
+          </div>
+        </section>
+
+        {/* Internships Section Header - NO ADD BUTTON FOR USERS */}
+        <section className="internships">
+          <div className="internships-header">
+            <h2>Available Internships</h2>
+            {/* No add button for user perspective */}
+          </div>
+          
+          {/* Internships Grid */}
+          <div className="internships-grid">
+            {filteredInternships.map((internship) => (
+              <div key={internship.id} className="internship-card">
+                {/* No delete button for users */}
+                
+                <div className="card-image-container">
+                  <img src={internship.image} alt={internship.title} className="card-image" />
+                  <div className="card-overlay">
+                    <span className="card-category">{internship.department}</span>
+                    <div className="card-stats">
+                      <span>👥 {internship.applicants}</span>
+                      <span>⭐ {internship.rating}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="card-content">
+                  <div className="card-header">
+                    <h3 className="card-title">{internship.title}</h3>
+                    <div className="card-meta">
+                      <span 
+                        className="status-badge" 
+                        style={{ backgroundColor: getStatusColor(internship.status) }}
+                      >
+                        {internship.status}
+                      </span>
+                      <span 
+                        className="level-badge" 
+                        style={{ color: getTypeColor(internship.type) }}
+                      >
+                        {internship.type}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="card-details">
+                    <span>⏱️ {internship.duration}</span>
+                    <span>📍 {internship.location}</span>
+                    <span>💰 ${internship.stipend}/month</span>
+                  </div>
+                  
+                  <div className="card-instructor">
+                    <span>👨‍💼 {internship.coordinator}</span>
+                  </div>
+                  
+                  <p className="card-description">{internship.description}</p>
+                  
+                  <div className="card-skills">
+                    {internship.skills.map((skill, index) => (
+                      <span key={index} className="skill">{skill}</span>
+                    ))}
+                  </div>
+                  
+                  {/* Only View button for users */}
+                  <div className="card-actions">
+                    <button className="btn-view" onClick={() => handleView(internship)}>View Details</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Internship Statistics */}
+        <section className="internship-stats">
+          <div className="stats-content">
+            <h2>Internship Statistics</h2>
+            <div className="stats-grid">
+              <div className="stat-item">
+                <div className="stat-icon">💼</div>
+                <div className="stat-value">{filteredInternships.length}</div>
+                <div className="stat-label">Available Internships</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">🏢</div>
+                <div className="stat-value">{[...new Set(filteredInternships.map(i => i.company))].length}</div>
+                <div className="stat-label">Partner Companies</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">👥</div>
+                <div className="stat-value">{filteredInternships.reduce((sum, i) => sum + i.applicants, 0)}</div>
+                <div className="stat-label">Total Applicants</div>
+              </div>
+              <div className="stat-item">
+                <div className="stat-icon">💰</div>
+                <div className="stat-value">${filteredInternships.reduce((sum, i) => sum + i.stipend, 0).toLocaleString()}</div>
+                <div className="stat-label">Monthly Stipends</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="internship-footer">
+          <div className="footer-content">
+            <h3>Stay Connected</h3>
+            <div className="newsletter">
+              <input type="email" placeholder="Your email" />
+              <button>Subscribe</button>
+            </div>
+          </div>
+        </footer>
+      </main>
+
+      {/* View Modal - Only view functionality for users */}
+      {showViewModal && selectedInternship && (
+        <div className="company-internship-user-modal-overlay" onClick={() => setShowViewModal(false)}>
+          <div className="company-internship-user-modal-content" onClick={e => e.stopPropagation()}>
+            <div className="company-internship-user-modal-header">
+              <h2>View Internship</h2>
+              <button className="company-internship-user-modal-close" onClick={() => setShowViewModal(false)}>✕</button>
+            </div>
+            <div className="company-internship-user-modal-body">
+              <img
+                src={selectedInternship.image}
+                alt={selectedInternship.title}
+                className="company-internship-user-modal-image"
+              />
+              <div className="company-internship-user-modal-info">
+                <div className="company-internship-user-modal-title-section">
+                  <h3>{selectedInternship.title}</h3>
+                  <div className="company-internship-user-modal-badges">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     <span 
                       className="status-badge" 
                       style={{ backgroundColor: getStatusColor(selectedInternship.status) }}
@@ -371,6 +562,7 @@ const Internshipuser = () => {
                   </div>
                 </div>
                 
+<<<<<<< HEAD
                 <div className="modal-meta">
                   <div className="meta-item">
                     <strong>👨‍💼 Coordinator:</strong> {selectedInternship.coordinator}
@@ -415,6 +607,52 @@ const Internshipuser = () => {
                 <div className="modal-skills">
                   <strong>🛠️ Skills Required:</strong>
                   <div className="skills-container">
+=======
+                <div className="company-internship-user-modal-meta">
+                  <div className="company-internship-user-meta-item" data-info="coordinator">
+                    <strong>Coordinator:</strong> {selectedInternship.coordinator}
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="department">
+                    <strong>Department:</strong> {selectedInternship.department}
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="duration">
+                    <strong>Duration:</strong> {selectedInternship.duration}
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="location">
+                    <strong>Location:</strong> {selectedInternship.location}
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="stipend">
+                    <strong>Stipend:</strong> ${selectedInternship.stipend}/month
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="company">
+                    <strong>Company:</strong> {selectedInternship.company}
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="applicants">
+                    <strong>Applicants:</strong> {selectedInternship.applicants} students
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="rating">
+                    <strong>Rating:</strong> {selectedInternship.rating}/5.0
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="start-date">
+                    <strong>Start Date:</strong> {new Date(selectedInternship.startDate).toLocaleDateString()}
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="end-date">
+                    <strong>End Date:</strong> {new Date(selectedInternship.endDate).toLocaleDateString()}
+                  </div>
+                  <div className="company-internship-user-meta-item" data-info="requirements">
+                    <strong>Requirements:</strong> {selectedInternship.requirements}
+                  </div>
+                </div>
+                
+                <div className="company-internship-user-modal-description">
+                  <strong>Description:</strong>
+                  <p>{selectedInternship.description}</p>
+                </div>
+                
+                <div className="company-internship-user-modal-skills">
+                  <strong>Skills Required:</strong>
+                  <div className="company-internship-user-skills-container">
+>>>>>>> c58690afdcbaf86d63e4e395000c9e3f86743a8d
                     {selectedInternship.skills.map((skill, index) => (
                       <span key={index} className="skill">{skill}</span>
                     ))}
